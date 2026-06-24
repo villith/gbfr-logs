@@ -26,3 +26,9 @@ dist-ssr
 *.dll
 *.gbfr
 **/target/
+
+# Generated build artifact (built by scripts/build.ps1; also matched by *.dll above)
+src-tauri/hook.dll
+
+# Local reference data, not part of the app
+docs/damage-calculators/
