@@ -1057,4 +1057,70 @@ mod tests {
         assert_eq!(parser.derived_state.end_time, 5_000);
         assert_eq!(parser.derived_state.duration(), 4_000);
     }
+
+    #[test]
+    fn capped_hits_aggregated_through_reparse() {
+        let mut parser = Parser::default();
+
+        // A hit that reached its cap, followed by one that did not.
+        parser.encounter.raw_event_log.push((
+            1_000,
+            Message::DamageEvent(DamageEvent {
+                source: Actor {
+                    index: 0,
+                    actor_type: 0,
+                    parent_actor_type: 0,
+                    parent_index: 0,
+                },
+                target: Actor {
+                    index: 0,
+                    actor_type: 0,
+                    parent_actor_type: 0,
+                    parent_index: 0,
+                },
+                damage: 99_999,
+                flags: 0,
+                action_id: ActionType::Normal(1),
+                attack_rate: None,
+                stun_value: None,
+                damage_cap: Some(99_999),
+            }),
+        ));
+
+        parser.encounter.raw_event_log.push((
+            2_000,
+            Message::DamageEvent(DamageEvent {
+                source: Actor {
+                    index: 0,
+                    actor_type: 0,
+                    parent_actor_type: 0,
+                    parent_index: 0,
+                },
+                target: Actor {
+                    index: 0,
+                    actor_type: 0,
+                    parent_actor_type: 0,
+                    parent_index: 0,
+                },
+                damage: 100,
+                flags: 0,
+                action_id: ActionType::Normal(1),
+                attack_rate: None,
+                stun_value: None,
+                damage_cap: Some(99_999),
+            }),
+        ));
+
+        parser.reparse();
+
+        let player = parser
+            .derived_state
+            .party
+            .get(&0)
+            .expect("player should be present after reparse");
+        assert_eq!(player.capped_hits, 1);
+        assert_eq!(player.skill_breakdown.len(), 1);
+        assert_eq!(player.skill_breakdown[0].capped_hits, 1);
+        assert_eq!(player.skill_breakdown[0].hits, 2);
+    }
 }
