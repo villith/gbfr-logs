@@ -3,9 +3,11 @@ name: Release
 # Builds and signs the Windows MSI and publishes a GitHub Release when a version
 # tag (e.g. `1.9.0`) is pushed.
 #
-# Requires two repository secrets (Settings -> Secrets and variables -> Actions):
-#   TAURI_PRIVATE_KEY     - the minisign private key from `tauri signer generate`
-#   TAURI_KEY_PASSWORD    - the password for that key (set to "" if none)
+# Requires one repository secret (Settings -> Secrets and variables -> Actions):
+#   TAURI_PRIVATE_KEY     - contents of .tauri/gbfr-logs.key
+# Our key has NO password, so TAURI_KEY_PASSWORD is intentionally unset; the env
+# reference below resolves to an empty string, which is correct for a passwordless
+# key. Only add a TAURI_KEY_PASSWORD secret if you regenerate the key WITH one.
 #
 # The public half of that key MUST be set in src-tauri/tauri.conf.json
 # (updater.pubkey), otherwise installed apps will reject the signed update.

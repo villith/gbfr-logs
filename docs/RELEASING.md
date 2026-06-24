@@ -33,8 +33,11 @@ The release workflow needs the private key. In the repo:
 **Settings → Secrets and variables → Actions → New repository secret**
 
 - `TAURI_PRIVATE_KEY` — the full contents of `.tauri/gbfr-logs.key`.
-- `TAURI_KEY_PASSWORD` — empty (this key has no password), but add the secret so the
-  workflow's env reference resolves.
+
+You do **not** need a `TAURI_KEY_PASSWORD` secret: this key was generated without a
+password. The workflow references it, but a missing secret resolves to an empty
+string, which is exactly "no password". Only add it if you regenerate the key
+**with** a password.
 
 > The private key file lives only on the machine that generated it (it's gitignored).
 > Back it up somewhere safe — losing it breaks auto-updates for all installed clients.
