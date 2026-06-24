@@ -25,6 +25,8 @@ pub struct SkillState {
     pub max_stun_value: f64,
     /// Total stun value done by this skill
     pub total_stun_value: f64,
+    /// Number of hits that reached the game's damage cap for this skill
+    pub capped_hits: u32,
 }
 
 impl SkillState {
@@ -38,10 +40,14 @@ impl SkillState {
             total_damage: 0,
             max_stun_value: 0.0,
             total_stun_value: 0.0,
+            capped_hits: 0,
         }
     }
 
     pub fn update_from_damage_event(&mut self, damage_instance: &AdjustedDamageInstance) {
+        if damage_instance.is_capped {
+            self.capped_hits += 1;
+        }
         self.hits += 1;
         self.total_damage += damage_instance.event.damage as u64;
         self.max_stun_value = self.max_stun_value.max(damage_instance.stun_damage);
@@ -126,5 +132,54 @@ mod tests {
         assert_eq!(skill_state.min_damage, Some(100));
         assert_eq!(skill_state.max_damage, Some(1999));
         assert_eq!(skill_state.total_damage, 2099);
+    }
+
+    fn make_event(damage: i32, damage_cap: Option<i32>) -> DamageEvent {
+        DamageEvent {
+            source: Actor {
+                index: 0,
+                actor_type: 0,
+                parent_actor_type: 0,
+                parent_index: 0,
+            },
+            target: Actor {
+                index: 0,
+                actor_type: 0,
+                parent_actor_type: 0,
+                parent_index: 0,
+            },
+            action_id: ActionType::Normal(1),
+            damage,
+            flags: 0,
+            attack_rate: None,
+            stun_value: None,
+            damage_cap,
+        }
+    }
+
+    #[test]
+    fn counts_capped_hits() {
+        use crate::parser::v1::AdjustedDamageInstance;
+
+        let mut skill_state = SkillState::new(ActionType::Normal(1), CharacterType::Pl0000);
+
+        // damage == cap -> capped
+        let e1 = make_event(22_999, Some(22_999));
+        skill_state.update_from_damage_event(&AdjustedDamageInstance::from_damage_event(&e1, None));
+        // damage > cap -> capped
+        let e2 = make_event(30_000, Some(22_999));
+        skill_state.update_from_damage_event(&AdjustedDamageInstance::from_damage_event(&e2, None));
+        // damage < cap -> not capped
+        let e3 = make_event(10_000, Some(22_999));
+        skill_state.update_from_damage_event(&AdjustedDamageInstance::from_damage_event(&e3, None));
+        // no cap info -> not capped
+        let e4 = make_event(99_999, None);
+        skill_state.update_from_damage_event(&AdjustedDamageInstance::from_damage_event(&e4, None));
+        // cap == 0 -> not capped (guard against bogus zero cap)
+        let e5 = make_event(5_000, Some(0));
+        skill_state.update_from_damage_event(&AdjustedDamageInstance::from_damage_event(&e5, None));
+
+        assert_eq!(skill_state.hits, 5);
+        assert_eq!(skill_state.capped_hits, 2);
     }
 }

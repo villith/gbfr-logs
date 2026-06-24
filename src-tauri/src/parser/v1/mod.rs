@@ -24,16 +24,19 @@ pub struct AdjustedDamageInstance<'a> {
     pub event: &'a DamageEvent,
     pub player_data: Option<&'a PlayerData>,
     pub stun_damage: f64,
+    pub is_capped: bool,
 }
 
 impl<'a> AdjustedDamageInstance<'a> {
     pub fn from_damage_event(event: &'a DamageEvent, player_data: Option<&'a PlayerData>) -> Self {
         let stun_damage = event.stun_value.unwrap_or(0.0) as f64;
+        let is_capped = matches!(event.damage_cap, Some(cap) if cap > 0 && event.damage >= cap);
 
         Self {
             event,
             player_data,
             stun_damage,
+            is_capped,
         }
     }
 }
