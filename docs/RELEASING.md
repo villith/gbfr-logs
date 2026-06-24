@@ -7,30 +7,37 @@ tag is pushed.
 
 ## One-time setup (do this before the first release)
 
-### 1. Generate an updater signing keypair
+### 1. Updater signing keypair (already generated)
 
 The auto-updater signs every update bundle with a **private** key and verifies it
-against a **public** key embedded in the app. Generate your own keypair:
+against a **public** key embedded in the app.
+
+A keypair has already been generated for this fork (no password):
+
+- **Public key** — set in `src-tauri/tauri.conf.json` → `tauri.updater.pubkey`.
+- **Private key** — `.tauri/gbfr-logs.key` (and `.tauri/gbfr-logs.key.pub`). This
+  directory is **gitignored** (`.tauri/`, `*.key`) and must never be committed.
+
+To regenerate (e.g. if the key is lost — note: existing installs can then no longer
+auto-update and must reinstall manually):
 
 ```sh
-npx tauri signer generate -w ~/.tauri/gbfr-logs.key
+npx tauri signer generate --ci -p "" -w .tauri/gbfr-logs.key
 ```
 
-This prints (and writes) two things:
-
-- **Public key** — a base64 string. Put it in `src-tauri/tauri.conf.json` under
-  `tauri.updater.pubkey`, **replacing the inherited upstream key**. Until you do
-  this, apps you build will only trust updates signed by the original maintainer's
-  key (which you do not have), so your updates will be rejected.
-- **Private key** — the contents of `~/.tauri/gbfr-logs.key`. Keep it secret; never
-  commit it. If you set a password when generating, remember it.
+…then copy the printed/`.pub` public key into `tauri.updater.pubkey`.
 
 ### 2. Add the private key as GitHub Actions secrets
 
-In the repo: **Settings → Secrets and variables → Actions → New repository secret**
+The release workflow needs the private key. In the repo:
+**Settings → Secrets and variables → Actions → New repository secret**
 
-- `TAURI_PRIVATE_KEY` — the full contents of `~/.tauri/gbfr-logs.key`.
-- `TAURI_KEY_PASSWORD` — the password you set (add it empty if you set none).
+- `TAURI_PRIVATE_KEY` — the full contents of `.tauri/gbfr-logs.key`.
+- `TAURI_KEY_PASSWORD` — empty (this key has no password), but add the secret so the
+  workflow's env reference resolves.
+
+> The private key file lives only on the machine that generated it (it's gitignored).
+> Back it up somewhere safe — losing it breaks auto-updates for all installed clients.
 
 The release workflow reads these to sign the bundle. A GitHub secret does nothing
 until a workflow consumes it — that's what `release.yaml` is for.

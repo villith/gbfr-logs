@@ -26,3 +26,8 @@ dist-ssr
 *.dll
 *.gbfr
 **/target/
+
+# Tauri updater signing keys — NEVER commit the private key
+.tauri/
+*.key
+*.key.pub

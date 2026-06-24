@@ -108,7 +108,7 @@
     "updater": {
       "active": true,
       "dialog": true,
-      "pubkey": "dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IERDQjZEMTgxOEY4OTIwNDcKUldSSElJbVBnZEcyM1BSUklxWWRsWStXYnVsWU1mODY3YzZCWCtTZzJrUGJsZHpNY1h1S3hhc2cK",
+      "pubkey": "dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IEZCMDMyNUExMDc3MTkwNzkKUldSNWtIRUhvU1VEKzdNQzdqMzBPdk1INExKVEVRa2NhYkp5MVgyQVA5aU05RlFWaXV0b1VSdjAK",
       "endpoints": [
         "https://raw.githubusercontent.com/villith/gbfr-logs/main/update.json"
       ],
