@@ -22,7 +22,7 @@ interface MeterStateFunctions {
 
 const DEFAULT_METER_SETTINGS: MeterSettings = {
   color_1: "#FF5630",
-  color_2: "#FFAB00",
+  color_2: "#F2D90A",
   color_3: "#36B37E",
   color_4: "#00B8D9",
   transparency: 0.2,
@@ -31,7 +31,7 @@ const DEFAULT_METER_SETTINGS: MeterSettings = {
   show_full_values: false,
   use_condensed_skills: true,
   open_log_on_save: true,
-  overlay_columns: [MeterColumns.TotalDamage, MeterColumns.DPS, MeterColumns.DamagePercentage],
+  overlay_columns: [MeterColumns.TotalDamage, MeterColumns.DPS, MeterColumns.DamageCap, MeterColumns.DamagePercentage],
 };
 
 export type StoreWithPersist<T> = Mutate<StoreApi<T>, [["zustand/persist", T]]>;

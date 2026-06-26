@@ -68,6 +68,7 @@ export const Table = ({
         MeterColumns.DPS,
         MeterColumns.TotalStunValue,
         MeterColumns.StunPerSecond,
+        MeterColumns.DamageCap,
         MeterColumns.DamagePercentage,
       ];
 

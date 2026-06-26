@@ -57,6 +57,8 @@
       "damage-description": "Total Damage",
       "damage-percentage": "%",
       "damage-percentage-description": "Total Damage in Percentage",
+      "damage-cap": "Cap",
+      "damage-cap-description": "Percentage of Hits at Damage Cap",
       "sba": "SBA",
       "sba-description": "Skybound Arts Gauge",
       "total-stun-value": "Stun",

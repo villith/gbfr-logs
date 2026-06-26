@@ -84,17 +84,20 @@ export const SkillGroupRow = ({ characterType, group, color }: SkillRowProps) =>
           )}
         </td>
         <td className="text-center row-data">
-          {group.percentage.toFixed(0)}
-          <span className="unit font-sm">%</span>
-        </td>
-        <td className="text-center row-data">
           {group.cappedHits > 0 ? (
             <span className="capped">
-              {group.cappedHits}/{group.hits}
+              {((group.cappedHits / group.hits) * 100).toFixed(0)}
+              <span className="font-sm">%</span>
             </span>
           ) : (
-            `0/${group.hits}`
+            <>
+              0<span className="font-sm">%</span>
+            </>
           )}
+        </td>
+        <td className="text-center row-data">
+          {group.percentage.toFixed(0)}
+          <span className="unit font-sm">%</span>
         </td>
         <div className="damage-bar" style={{ backgroundColor: color, width: `${group.percentage}%` }} />
       </tr>
