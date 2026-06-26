@@ -223,6 +223,7 @@ export enum MeterColumns {
   Name = "name",
   DPS = "dps",
   TotalDamage = "damage",
+  DamageCap = "damage-cap",
   DamagePercentage = "damage-percentage",
   SBA = "sba",
   TotalStunValue = "total-stun-value",

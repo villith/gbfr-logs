@@ -80,17 +80,20 @@ export const SkillRow = ({ characterType, skill, color, nested }: SkillRowProps)
         )}
       </td>
       <td className="text-center row-data">
-        {skill.percentage.toFixed(0)}
-        <span className="unit font-sm">%</span>
-      </td>
-      <td className="text-center row-data">
         {skill.cappedHits > 0 ? (
           <span className="capped">
-            {skill.cappedHits}/{skill.hits}
+            {((skill.cappedHits / skill.hits) * 100).toFixed(0)}
+            <span className="font-sm">%</span>
           </span>
         ) : (
-          `0/${skill.hits}`
+          <>
+            0<span className="font-sm">%</span>
+          </>
         )}
+      </td>
+      <td className="text-center row-data">
+        {skill.percentage.toFixed(0)}
+        <span className="unit font-sm">%</span>
       </td>
       <div className="damage-bar" style={{ backgroundColor: color, width: `${skill.percentage}%` }} />
     </tr>
