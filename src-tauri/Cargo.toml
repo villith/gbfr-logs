@@ -1,6 +1,6 @@
 [package]
 name = "gbfr-logs"
-version = "1.12.15-1"
+version = "1.12.15"
 default-run = "gbfr-logs"
 description = "Relink Logs"
 authors = ["you"]
