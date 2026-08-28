@@ -21,7 +21,7 @@ use anyhow::{bail, Context, Result};
 use game_reader::MemRead;
 use gbfr_logs::game_mem;
 
-const SAVE_ROOT_RVA: u64 = 0x7c22bc0;
+const SAVE_ROOT_RVA: u64 = 0x7c22e40;
 
 /// (buckets, mask, end-sentinel) offsets on the save root, per map.
 const MAPS: [(&str, u64, u64, u64); 2] = [

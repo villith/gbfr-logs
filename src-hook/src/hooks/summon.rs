@@ -28,31 +28,31 @@ use crate::hooks::GetEntityHashID0x58;
 /// through the same walk to confirm the RVA yields the class it came from, so
 /// these are read facts, not the +0x12A0 section shift applied arithmetically.
 ///
-/// NOT in this list, deliberately: `So6300` (2.0.4 vtable 0x5C595A0) and `So1a01`
-/// (0x5E7ED30). The RTTI walk finds them alongside the others and they are NOT new
+/// NOT in this list, deliberately: `So6300` (2.0.5 vtable 0x5C59AA0) and `So1a01`
+/// (0x5E7F230). The RTTI walk finds them alongside the others and they are NOT new
 /// 2.0.4 classes — they were already absent here. Whether they belong is a
 /// question of whether they store their summoner at +0xFE8, which has not been
 /// checked; adding them unverified would mis-attribute damage, so they stay out
 /// until someone decompiles them.
 const SUMMON_BASE_VTABLE_RVAS: &[usize] = &[
     0x59C3430, // BehaviorSummonObjectBase (generic/data-driven body)
-    0x5C56030, // So0000  Lucilius
-    0x5C57250, // So4e00  Albacore
-    0x5C59CC0, // So6400  Wheel of Fate
-    0x5C5AE70, // So0200  Rolan
-    0x5C5C000, // So2001  Silverslime var.
-    0x5C5E280, // So4502  Lilith var.
-    0x5E72860, // So4500  Lilith
-    0x5E754A0, // So4c00  Managarmr Nihilla
-    0x5E76630, // So1d00  Quakadile
-    0x5E77720, // So9200  Beelzebub
-    0x5E788B0, // So0d00  Goblin Soldier
-    0x5E79A40, // So4f00  Hope-Filled Skydwellers
-    0x5E7ABF0, // So5600  Mellose Clan
-    0x5E7BDA0, // So5700  Crew Alliance Rafale
-    0x5E7CF50, // So5f01  Cat var.
-    0x617CC20, // So1100  Goblin Warrior
-    0x617CFC0, // So1100Base (generic body)
+    0x5C56530, // So0000  Lucilius
+    0x5C57750, // So4e00  Albacore
+    0x5C5A1C0, // So6400  Wheel of Fate
+    0x5C5B370, // So0200  Rolan
+    0x5C5C500, // So2001  Silverslime var.
+    0x5C5E780, // So4502  Lilith var.
+    0x5E72D60, // So4500  Lilith
+    0x5E759A0, // So4c00  Managarmr Nihilla
+    0x5E76B30, // So1d00  Quakadile
+    0x5E77C20, // So9200  Beelzebub
+    0x5E78DB0, // So0d00  Goblin Soldier
+    0x5E79F40, // So4f00  Hope-Filled Skydwellers
+    0x5E7B0F0, // So5600  Mellose Clan
+    0x5E7C2A0, // So5700  Crew Alliance Rafale
+    0x5E7D450, // So5f01  Cat var.
+    0x617D090, // So1100  Goblin Warrior
+    0x617D430, // So1100Base (generic body)
 ];
 
 /// One-shot latch so a patch that moves these vtables logs once per session

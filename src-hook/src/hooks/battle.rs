@@ -39,14 +39,14 @@ use crate::hooks::diag::{read_ptr_guarded, read_u32_guarded, MODULE_BASE};
 
 /// The battle singleton `EmLinkTimeCondition` reads (v2.0.3). Byte `+0x10`
 /// bit 0 = link time active.
-const LINK_TIME_SINGLETON_RVA: usize = 0x7030fe0; // 2.0.3: 0x702fd50
+const LINK_TIME_SINGLETON_RVA: usize = 0x7031200; // 2.0.4: 0x7030fe0
 /// Byte offset of the link-time flag inside the singleton.
 const LINK_TIME_FLAG_OFFSET: usize = 0x10;
 
 /// The enemy mode component's static-init type id (v2.0.3); guard dword at
 /// `+4`, same `_Init_thread` protocol as `SBA_COMPONENT_TYPE_RVA` (see
 /// `poll_context` in sba.rs for the guard semantics).
-const EM_MODE_COMPONENT_TYPE_RVA: usize = 0x7bb7dcc; // 2.0.3: 0x7bb6b4c
+const EM_MODE_COMPONENT_TYPE_RVA: usize = 0x7bb804c; // 2.0.4: 0x7bb7dcc
 /// Mode field inside the resolved component.
 const EM_MODE_OFFSET: usize = 0x10;
 /// The game's raw mode enum has six values (the BT mapping table

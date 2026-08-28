@@ -299,6 +299,6 @@ The injected DLL is **locked while the game runs** — close the game to swap it
 
 **Ghidra DBs** (all under `C:\Users\Scott\ghidra-projects\gbfr`, all persist). Two kinds per game version: `gbfr<ver>lean` (import-only, for fast FindEntry/InspectFunc/FindByBytes lookups) and `gbfr<ver>fast` (fully analyzed, for `Decompile.java` + xrefs + `SymbolAt`/C++ RTTI names). Re-create both only after a new game patch.
 
-Present: **`gbfr202lean` / `gbfr202fast`** (v2.0.2) and **`gbfr203lean` / `gbfr203fast`** (v2.0.3). **Keep the previous version's DBs** — the 2.0.3 fix was derived almost entirely by querying `gbfr202fast` for xrefs and old bytes, which is impossible once Steam has overwritten the old exe.
+Present: `gbfr202*` (v2.0.2), `gbfr203*` (v2.0.3), `gbfr204*` (v2.0.4) and **`gbfr205lean` / `gbfr205fast`** (v2.0.5, current). The exe lives at `G:\SteamLibrary\steamapps\common\Granblue Fantasy Relink\` (sigscan's default), not under `C:\Program Files (x86)\Steam`. **Keep the previous version's DBs** — the 2.0.3 fix was derived almost entirely by querying `gbfr202fast` for xrefs and old bytes, which is impossible once Steam has overwritten the old exe.
 
 Detailed, evolving findings for the current patch live in the memory file `gbfr-endless-ragnarok-break` (verified entries, offsets, and per-hook status).

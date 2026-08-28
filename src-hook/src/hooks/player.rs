@@ -376,7 +376,7 @@ const RECORD_MASTER_LEVEL_OFFSET: usize = 0x5B60;
 /// v2.0.3: re-derived 2026-07-31 from the `mov r14,[rip+..]` in the weapon-state
 /// fill `FUN_140a2d8d0` (now at rva 0xa27000-ish), which loads the save root and
 /// the weapon table back to back.
-const SAVE_ROOT_RVA: usize = 0x7c22bc0; // 2.0.3: 0x7c21940
+const SAVE_ROOT_RVA: usize = 0x7c22e40; // 2.0.4: 0x7c22bc0
 const EQ_MAP_END: usize = 0x40;
 const EQ_MAP_BUCKETS: usize = 0x50;
 const EQ_MAP_MASK: usize = 0x68;
@@ -446,7 +446,7 @@ const WEAPON_SOURCE_KEY_OFFSET: usize = 0x44;
 /// at +0x00, then the 18-u32 weapon struct (so +0x04 = weapon.tbl Key hash),
 /// validity count at +0x40, the 5 active innate skill-id slots at +0x44.
 /// `FUN_140321e30` copies a column verbatim into record+0x50 / blob+0x50.
-const WEAPON_TABLE_RVA: usize = 0x7c22d38; // 2.0.3: 0x7c21ab8
+const WEAPON_TABLE_RVA: usize = 0x7c22fb8; // 2.0.4: 0x7c22d38
 const WS_TABLE_BASE: usize = 0x370;
 const WS_TABLE_ROWS: usize = 32;
 const WS_TABLE_ROW_STRIDE: usize = 0x680;
@@ -472,7 +472,7 @@ const WS_TABLE_SKILL_SLOTS: usize = 5;
 /// skillboard query's own `mov rbx,[rip+..]` prologue load and the record
 /// dispatcher's `mov rax,[rip+..]`. This is the global whose staleness silently
 /// emptied master traits after the patch.
-const CHARA_POWER_RVA: usize = 0x7c22cb8; // 2.0.3: 0x7c21a38
+const CHARA_POWER_RVA: usize = 0x7c22f38; // 2.0.4: 0x7c22cb8
 const SB_CHAR_MAP_END: usize = 0x728;
 const SB_CHAR_MAP_BUCKETS: usize = 0x738;
 const SB_CHAR_MAP_MASK: usize = 0x750;

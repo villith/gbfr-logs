@@ -5,6 +5,12 @@ version without a section here, and the section body becomes the GitHub
 release body — which the in-app update prompt shows as patch notes. Renders
 markdown in the app.
 
+## 1.12.16
+
+### Notes
+
+- Supports version 2.0.5 of the game
+
 ## 1.12.15
 
 ### Language

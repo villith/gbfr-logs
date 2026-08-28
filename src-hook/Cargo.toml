@@ -5,7 +5,7 @@ name = "hook"
 # different version as OutOfDate even on a matching wire, and this is the
 # version stamped into the DLL's resource block — so an unbumped change ships
 # a hook indistinguishable from the previous one.
-version = "0.2.3"
+version = "0.2.4"
 edition = "2021"
 
 [lib]
