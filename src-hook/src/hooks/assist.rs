@@ -195,10 +195,10 @@ fn read_quest_id() -> Option<u32> {
 /// `hook-config.json` before injecting, so the value is current for this game session and
 /// toggling it takes effect on the next launch.
 fn read_unlock_setting() -> bool {
-    let Some(mut path) = dirs::data_dir() else {
+    let Some(mut path) = crate::get_dll_dir() else {
         return false;
     };
-    path.push("gbfr-logs");
+    path.push("portable_data");
     path.push("hook-config.json");
 
     let Ok(contents) = std::fs::read_to_string(&path) else {

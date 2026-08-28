@@ -1,7 +1,7 @@
 use std::io::Write;
 use std::path::PathBuf;
 
-use anyhow::{Context, Result};
+use anyhow::Result;
 use futures::sink::SinkExt;
 use interprocess::os::windows::named_pipe::tokio::PipeListenerOptionsExt;
 use interprocess::os::windows::named_pipe::{PipeListenerOptions, PipeMode};
@@ -195,14 +195,42 @@ async fn setup() {
     server.run().await;
 }
 
-fn initialize_logger() -> anyhow::Result<()> {
-    let application_data_dir = dirs::data_dir().context("Could not find data folder")?;
-    let mut log_file = PathBuf::new();
+/// Get the directory containing this DLL using the Windows linker's
+/// __ImageBase symbol + GetModuleFileNameW. Bypasses the Known Folder
+/// API so the log stays portable alongside the DLL instead of polluting
+/// the real %APPDATA%/Roaming.
+fn get_dll_dir() -> Option<PathBuf> {
+    extern "C" {
+        #[link_name = "\x01__ImageBase"]
+        static __IMAGE_BASE: std::ffi::c_void;
+    }
+    extern "system" {
+        fn GetModuleFileNameW(hModule: isize, lpFilename: *mut u16, nSize: u32) -> u32;
+    }
 
-    log_file.push(application_data_dir);
-    log_file.push("gbfr-logs");
-    std::fs::create_dir_all(log_file.as_path())?;
-    log_file.push("gbfr-logs.txt");
+    let hmod = unsafe { &__IMAGE_BASE as *const _ as isize };
+    let mut buf: Vec<u16> = vec![0; 260];
+    let len = unsafe { GetModuleFileNameW(hmod, buf.as_mut_ptr(), buf.len() as u32) } as usize;
+
+    if len > 0 && len < buf.len() {
+        let path_str = String::from_utf16_lossy(&buf[..len]);
+        PathBuf::from(path_str).parent().map(|p| p.to_path_buf())
+    } else {
+        None
+    }
+}
+
+fn initialize_logger() -> anyhow::Result<()> {
+    // Write the log next to the DLL (portable), NOT into the real
+    // %APPDATA%/Roaming which uses Known Folder API and ignores env vars.
+    let log_dir = get_dll_dir()
+        .unwrap_or_else(|| PathBuf::from("."))
+        .join("portable_data")
+        .join("hook-logs");
+
+    std::fs::create_dir_all(&log_dir)?;
+
+    let log_file = log_dir.join("gbfr-logs.txt");
 
     fern::Dispatch::new()
         .format(|out, message, record| {

@@ -27,7 +27,7 @@ pub fn data_dir() -> &'static Path {
     DIR.get_or_init(|| {
         #[cfg(windows)]
         {
-            PathBuf::from(".")
+            crate::portable::exe_dir()
         }
         #[cfg(not(windows))]
         {
@@ -47,9 +47,9 @@ mod tests {
 
     #[cfg(windows)]
     #[test]
-    fn windows_stays_cwd_relative() {
-        assert_eq!(data_dir(), Path::new("."));
-        assert!(data_dir().join("logs.db").is_relative());
+    fn windows_is_exe_relative() {
+        assert!(data_dir().is_absolute(), "data_dir must be absolute (EXE-relative for portability)");
+        assert!(data_dir().join("logs.db").is_absolute());
     }
 
     #[cfg(target_os = "linux")]

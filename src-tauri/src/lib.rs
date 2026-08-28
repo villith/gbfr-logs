@@ -22,6 +22,7 @@ pub mod linux_support;
 pub mod log_cache;
 pub mod overmastery;
 pub mod parser;
+pub mod portable;
 pub mod rpc;
 pub mod settings_db;
 pub mod synthesis;
